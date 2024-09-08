@@ -104,10 +104,10 @@ const Editor: React.FC = () => {
       editor.commands.unsetAllMarks();
 
       lintResult.forEach((feedback, index) => {
-        const { from, to } = findTextInDoc(
-          editor.state.doc,
-          feedback.relevantText
-        );
+        const result = findTextInDoc(editor.state.doc, feedback.relevantText);
+
+        const from = result?.from;
+        const to = result?.to;
 
         if (from !== undefined && to !== undefined) {
           editor
