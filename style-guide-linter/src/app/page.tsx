@@ -16,7 +16,16 @@ export default function Home() {
         {/* Main content */}
         <main className="flex-grow container mx-auto my-8 p-4 max-w-xl">
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Try it out now!</h2>
+            <h2 className="text-xl font-semibold mb-4">Try it out now</h2>
+
+            {/* Explainer Section */}
+            <div className="mb-6">
+              <p className="text-gray-700 mb-4">
+                This tool helps you ensure that your writing follows the
+                guidelines set by the Australian Government Style Manual.
+              </p>
+            </div>
+
             <Editor />
           </div>
         </main>

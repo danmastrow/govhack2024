@@ -85,12 +85,11 @@ const Editor: React.FC = () => {
       StarterKit,
       Placeholder.configure({
         placeholder:
-          "Write something for our AI to validate against the Australian Style Guide …",
+          "Write or paste something here for our AI to validate against the Australian Style Guide…",
       }),
       Highlight,
     ],
-    content:
-      "Once you have started a business, you need to meet specific business obligations. This includes any required registrations or business. You may need an Australian business number (ABN). This unique 11-digit number identifies your business or organisation to the government and community. An ABN has its own set of obligations.",
+    content: "",
     editorProps: {
       attributes: {
         class:
@@ -155,6 +154,15 @@ const Editor: React.FC = () => {
   const handleLint = async (): Promise<void> => {
     try {
       setIsLoading(true);
+
+      if (!editor) {
+        throw new Error("Editor is not available, please refresh the page.");
+      }
+
+      if (!editor.getText()) {
+        throw new Error("Please provide some content to lint.");
+      }
+
       const response = await fetch("/api/lint", {
         method: "POST",
         headers: {
@@ -187,23 +195,25 @@ const Editor: React.FC = () => {
             <EditorContent editor={editor} />
           </div>
 
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold mb-2">Feedback:</h3>
-            {lintResult?.map((feedback, index) => (
-              <div
-                key={`feedback-${index}`}
-                className={`p-2 mb-2 rounded highlight-${index + 1}`}
-              >
-                <p>
-                  <strong>{feedback.styleGuideRuleReferenceName}:</strong>{" "}
-                  {feedback.comment}
-                </p>
-                <p>
-                  <strong>Suggestion:</strong> {feedback.suggestion}
-                </p>
-              </div>
-            ))}
-          </div>
+          {lintResult && lintResult.length > 0 && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold mb-2">Feedback:</h3>
+              {lintResult?.map((feedback, index) => (
+                <div
+                  key={`feedback-${index}`}
+                  className={`p-2 mb-2 rounded highlight-${index + 1}`}
+                >
+                  <p>
+                    <strong>{feedback.styleGuideRuleReferenceName}:</strong>{" "}
+                    {feedback.comment}
+                  </p>
+                  <p>
+                    <strong>Suggestion:</strong> {feedback.suggestion}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="flex mt-4">
             <Button
