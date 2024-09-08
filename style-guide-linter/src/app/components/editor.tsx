@@ -14,6 +14,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { Button } from "@/components/ui/button";
 import { cn } from "../util";
 import "./styles.scss";
+import type { Node as ProseMirrorNode } from "prosemirror-model";
 
 // Type definitions
 export type FeedbackItem = {
@@ -115,25 +116,40 @@ const Editor: React.FC = () => {
             .setTextSelection({ from, to })
             .setMark("highlight", { class: `highlight-${index + 1}` })
             .run();
+
+          editor.chain().focus().setTextSelection(0).run();
         }
       });
     }
   }, [editor, lintResult]);
 
+  /**
+   * Find the position of the search text within the document.
+   * @param doc - The ProseMirror document.
+   * @param searchText - The text to search for within the document.
+   * @returns The range (from, to) if found, otherwise undefined.
+   */
   const findTextInDoc = (
-    doc: any,
+    doc: ProseMirrorNode,
     searchText: string
-  ): { from?: number; to?: number } => {
-    let from: number | undefined;
-    let to: number | undefined;
-    doc.descendants((node: any, pos: number) => {
-      if (node.isText && node.text.includes(searchText)) {
-        from = pos;
-        to = pos + searchText.length;
-        return false;
+  ): { from: number; to: number } | undefined => {
+    let foundPos: { from: number; to: number } | undefined = undefined;
+
+    doc.descendants((node, pos) => {
+      if (node.isText && node.text) {
+        const index = node.text.indexOf(searchText);
+        if (index !== -1) {
+          foundPos = {
+            from: pos + index,
+            to: pos + index + searchText.length,
+          };
+          return false; // Stop traversal once found
+        }
       }
+      return true; // Continue traversal
     });
-    return { from, to };
+
+    return foundPos;
   };
 
   const handleLint = async (): Promise<void> => {
