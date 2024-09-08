@@ -3,6 +3,14 @@
 ![Project Screenshot](image.png)
 ## [Live Demo](https://govhack2024.vercel.app)
 
+<div>
+    <a href="https://www.loom.com/share/313bbee9577341e8925c585b54a462ca">
+      <p>AI-Powered Simplification of Government Documents 🤖 - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/313bbee9577341e8925c585b54a462ca">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/313bbee9577341e8925c585b54a462ca-ca77f145cda9811b-full-play.gif">
+    </a>
+  </div>
 ## Overview
 
 This project aims to leverage AI technologies to enhance the application of the Australian Government Style Manual, making government content more clear, accurate, and user-friendly. It consists of two main components:
