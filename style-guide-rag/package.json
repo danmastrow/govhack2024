@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node ./main.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^8.15.0",
     "dotenv": "^16.4.5",
-    "fs": "0.0.1-security",
-    "openai": "^4.58.1"
+    "openai": "^4.58.1",
+    "ts-node": "^10.9.2"
   }
 }

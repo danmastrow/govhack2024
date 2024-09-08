@@ -8,6 +8,7 @@ import { JSDOM } from 'jsdom';
 
 const sitemapUrl = 'https://www.stylemanual.gov.au/sitemap.xml';
 const outputDir = './downloaded_pages';
+const combinedFileName = '_style_guide_full.md';
 const concurrencyLimit = 5; // Adjust this value based on the server's capacity
 
 interface SitemapUrl {
@@ -95,6 +96,29 @@ async function downloadInBatches(urls: string[]): Promise<void> {
     }
 }
 
+// Function to combine all markdown files into a single file
+async function combineDownloadedFiles(): Promise<void> {
+    try {
+        const files = await fs.readdir(outputDir);
+        const markdownFiles = files.filter(file => file.endsWith('.md'));
+
+        let combinedContent = '';
+
+        for (const file of markdownFiles) {
+            const filePath = path.join(outputDir, file);
+            const fileContent = await fs.readFile(filePath, 'utf-8');
+            combinedContent += `${fileContent}\n\n`; // Add two newlines between files
+        }
+
+        const combinedFilePath = path.join(outputDir, combinedFileName);
+        await fs.writeFile(combinedFilePath, combinedContent);
+        console.log(`Combined content saved to ${combinedFilePath}`);
+    } catch (error) {
+        console.error('Failed to combine downloaded files:', (error as Error).message);
+    }
+}
+
+// Main function to download and combine
 async function main(): Promise<void> {
     try {
         await fs.mkdir(outputDir, { recursive: true });
@@ -104,11 +128,15 @@ async function main(): Promise<void> {
 
         console.log('Parsing sitemap...');
         const urls = await parseSitemap(sitemapContent);
+        const filterUrlsByPath = urls.filter(url => url.includes('/grammar-punctuation-and-conventions/types-words'));
+        console.log(`Found ${filterUrlsByPath.length} URLs. Starting download...`);
+        await downloadInBatches(filterUrlsByPath);
 
-        console.log(`Found ${urls.length} URLs. Starting download...`);
-        await downloadInBatches(urls);
+        console.log('All pages downloaded successfully!');
 
-        console.log('All pages downloaded and prettified successfully!');
+        // Combine all markdown files into one
+        await combineDownloadedFiles();
+        console.log('All files combined into one!');
     } catch (error) {
         console.error('An error occurred:', (error as Error).message);
     }
