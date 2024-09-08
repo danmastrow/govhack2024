@@ -1,6 +1,5 @@
 # AI-Powered Australian Style Guide Linter
 
-![Project Screenshot](image.png)
 ## [Live Demo](https://govhack2024.vercel.app)
 
 <div>
