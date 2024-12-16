@@ -24,8 +24,6 @@ async function generateResponse(
   context: string,
   prompt: string
 ): Promise<string> {
-  console.log(context);
-  console.log(prompt);
   const completion = await openai.chat.completions.create({
     model: "gpt-4o",
     messages: [
@@ -58,9 +56,11 @@ async function getStyleGuidance(userInput: string) {
 }
 
 export async function POST(req: NextRequest) {
+  // No longer active.
+  return new NextResponse(null, { status: 400 });
+
   try {
     if (!req.body) {
-      return new NextResponse(null, { status: 400 });
     }
 
     const request: LintRequest = await req.json();
