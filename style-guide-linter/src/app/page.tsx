@@ -2,55 +2,36 @@ import Editor from "./components/editor";
 
 export default function Home() {
   return (
-    <div className="">
-      <div className="flex flex-col min-h-screen bg-gray-100">
-        {/* Header */}
-        <header className="bg-blue-600 text-white p-4">
-          <div className="container mx-auto">
-            <h1 className="text-2xl font-bold">
-              Australian Style Guide - AI Linter
-            </h1>
+    <main className="container mx-auto px-4 py-8">
+      <div className="space-y-8">
+        {/* Demo Video Section */}
+        <section>
+          <div className="relative pb-[65%] h-0">
+            <iframe
+              src="https://www.loom.com/embed/313bbee9577341e8925c585b54a462ca?sid=50d0c0c9-cc9f-4279-b967-6b22e465b3f2"
+              frameBorder="0"
+              allowFullScreen
+              className="absolute top-0 left-0 w-full h-full"
+            />
           </div>
-        </header>
-
-        {/* Main content */}
-        <main className="flex-grow container mx-auto my-8 p-4 max-w-xl">
-          <div className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Try it out now</h2>
-
-            {/* Explainer Section */}
-            <div className="mb-6">
-              <p className="text-gray-700 mb-4">
-                This tool helps you ensure that your writing follows the
-                guidelines set by the Australian Government Style Manual.
-              </p>
-            </div>
-
-            <Editor />
-          </div>
-        </main>
-
-        {/* Footer */}
-        <footer className="bg-gray-200 p-4">
-          <div className="container mx-auto text-center text-gray-600">
-            Made by Dan Mastrowicz for{" "}
+          <p className="text-muted-foreground mt-4">
+            ℹ️ This previously interactive prototype has been disabled to
+            prevent misuse. Please check the{" "}
             <a
-              href="https://hackerspace.govhack.org/events"
-              className="text-blue-600 underline"
+              href="https://github.com/yourusername/style-guide-linter"
+              className="underline hover:text-primary"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              GovHack 2024
-            </a>
-            <p>
-              <a
-                href="https://github.com/danmastrow/govhack2024"
-                className="text-blue-600 underline"
-              >
-                Github Repo
-              </a>
-            </p>
-          </div>
-        </footer>
+              GitHub repository
+            </a>{" "}
+            for more information.
+          </p>
+        </section>
+
+        {/* Editor Section */}
+        <Editor />
       </div>
-    </div>
+    </main>
   );
 }

@@ -85,7 +85,7 @@ const Editor: React.FC = () => {
       StarterKit,
       Placeholder.configure({
         placeholder:
-          "Write or paste something here for our AI to validate against the Australian Style Guide…",
+          "This prototype has been disabled to prevent misuse. Please check the GitHub repository for a demo video.",
       }),
       Highlight,
     ],
@@ -95,6 +95,7 @@ const Editor: React.FC = () => {
         class:
           "prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl focus:outline-none min-h-24",
       },
+      editable: () => false,
     },
   });
 
@@ -191,44 +192,16 @@ const Editor: React.FC = () => {
     <>
       {editor && (
         <>
-          <div className="border rounded-md p-4">
+          <div className="border rounded-md p-4 bg-gray-100 dark:bg-gray-800/30">
             <EditorContent editor={editor} />
           </div>
 
-          {lintResult && lintResult.length > 0 && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Feedback:</h3>
-              {lintResult?.map((feedback, index) => (
-                <div
-                  key={`feedback-${index}`}
-                  className={`p-2 mb-2 rounded highlight-${index + 1}`}
-                >
-                  <p>
-                    <strong>{feedback.styleGuideRuleReferenceName}:</strong>{" "}
-                    {feedback.comment}
-                  </p>
-                  <p>
-                    <strong>Suggestion:</strong> {feedback.suggestion}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex mt-4">
-            <Button
-              className="ml-auto"
-              onClick={handleLint}
-              disabled={isLoading}
-            >
+          <div className="flex mt-4 items-center justify-end">
+            <Button disabled={true}>
               <span>⭐</span>
-              <span className="ml-2">
-                {isLoading ? "Linting..." : "Lint with AI"}
-              </span>
+              <span className="ml-2">Lint with AI</span>
             </Button>
           </div>
-
-          {lintError && <p className="text-red-500 mt-2">{lintError}</p>}
         </>
       )}
     </>
